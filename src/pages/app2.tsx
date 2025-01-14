@@ -1,32 +1,57 @@
 import "@/app/globals.css";
 import { useState } from "react";
 import GetRizz from "@/api/getresponse";
-import { CldImage } from "next-cloudinary";
-
+import axios from "axios";
+import doOCR from "@/api/gettext";
 
 export default function MainRizzApp() {
 	const [Image, setImage] = useState<File | null>(null);
 	const [Preview, setPreview] = useState<string | null>(null);
 	const [RizzResponse, setRizzResponse] = useState<string | null>(null);
 	const [Loading, setLoading] = useState(false);
+    const [ImgUploaded, setImgUploaded] = useState(false)
+    const [MainImgURLfromCloudinary, setMainImgURLfromCloudinary] =
+			useState<string>("");
 
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+
+	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
+        const formData = new FormData();
 		if (file) {
 			setImage(file);
 			setPreview(URL.createObjectURL(file));
+            try {
+                formData.append("file", file);
+                formData.append("upload_preset", "first-preset");
+                const response = await axios.post(
+									"https://api.cloudinary.com/v1_1/dkcqhzrpa/image/upload",
+									formData
+								);
+                 const imageUrl = response.data.secure_url; // URL of the uploaded image
+                 console.log(imageUrl)
+                 setMainImgURLfromCloudinary(imageUrl);           
+                return imageUrl;
+            }catch (error){
+                console.error(error)
+            }
 		}
 	};
 
 	const handleRizz = async () => {
-		if (!Preview) {
+		if (Loading == true) {
 			alert("Please upload an image first!");
 			return;
 		}
 		setLoading(true);
 		setRizzResponse(null);
 		try {
-			const response = await GetRizz(Preview); // Call GetRizz with the image preview URL
+            setLoading(true);
+            console.log("Image URL Check just before parsing", MainImgURLfromCloudinary)
+            const text = await doOCR(MainImgURLfromCloudinary); 
+            console.log("Log 2 Imp", MainImgURLfromCloudinary);
+            console.log("Text extraction at final parsing to GetRizz is ", text)
+			const response = await GetRizz(text); // Call GetRizz with the image preview URL
 			setRizzResponse(response); // Save the response to display
 		} catch (error) {
 			console.error("Error getting Rizz response:", error.message);

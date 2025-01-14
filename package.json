@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.9.9",
+    "@google-cloud/vision": "^4.3.2",
+    "axios": "^1.7.9",
     "next": "15.1.4",
+    "next-cloudinary": "^6.16.0",
     "openai": "^4.78.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

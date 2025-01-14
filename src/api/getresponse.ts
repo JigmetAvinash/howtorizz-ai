@@ -3,25 +3,52 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY, 
-  baseURL: "https://xggsokc0oko08csowos0wowo.a.selfhosted.hackclub.com",
+  baseURL: 'http://5.161.100.52:3000/openai',
   dangerouslyAllowBrowser: true
 });
 
-const GetRizz = async (imageURL) => {
+const GetRizz = async (text) => {
   try {
+    console.log("console log the text at getresponse", text)
+    const contentMessage = `
+      You are the amazingly blazing guy who can rizz / flirt with anyone. But we have encountered a problem. 
+      The image given to you is of a conversation between one person and the other. 
+      Understand the conversation and tone completely. After understanding and thorough inspection, 
+      tell me what I should respond with to flirt the best. 
+      Make sure to not make this creepy or very obvious or clingy but to impress the one in front with that. 
+      If you can understand who is a girl or boy in the conversation, tailor your response to that.
+
+      Only give what I should respond with—no greetings, no instructions, no acknowledgment. 
+      Just what I should respond with.
+
+      If you feel this is not a conversational screenshot but some other image, respond with the exact quote:
+      'Hey, It feels like you are not providing photo of any conversation, if you feel this error is wrong, 
+      please report to JigmetAvinash/howtorizz-ai on GitHub or email at contact.chopcode@proton.me' 
+
+      I will give you the extracted text of the image, make sure to thourughly read it because it is using google vision OCR.
+      Make sure to identify what the text is saying, and who is saying what, even though it can be a little tough. If you feel like it is very
+      tough, make sure to still try it and at the end of your response just add quote 'Warning T22'
+
+      the text is ${text}
+    `;
+    
+
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini", // Ensure the model is supported by your custom API
+      model: "gpt-4o", // Ensure the model is supported by your custom API
       messages: [
         {
           role: "user",
-          content: "You are the amazingly blazing guy who can rizz / flirt with anyone. But we have encountered a problem, The image given to you is of a conversation between one person and the other. Understand the conversation and tone completely. After understanding and thorough inspection, Tell what I should respond with to flirt the best. Make sure to not make this creepy or very obvious or clingy but to impress the one in front with that. If you can understand who is a girl or boy in the conversation and tailor your response to that. Only give what I should respond with, no greetings, no instructions, no acknowledgment. Just what I should respond with. And if you feel this is not a conversational screenshot but some other image, respond with exact quote 'Hey, It feels like you are not providing photo of any conversation, if you feel this error is wrong, please report to JigmetAvinash/howtorizz-ai on github or email at contact.chopcode@proton.me'",
+          content: contentMessage.trim(),
         },
         {
-          type: "image_url",
-          image_url: imageURL, // Pass the image URL dynamically
+          role: "user",  
+          content: text, // Pass the image URL dynamically
         },
       ],
+      
     });
+    console.log(contentMessage)
+    
 
     return response.choices[0].message.content; // Extract and return the response content
   } catch (error) {
