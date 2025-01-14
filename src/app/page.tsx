@@ -10,7 +10,7 @@ export default function Home() {
 					Try this ultimate Rizz App powered by GPT-4o and Fine Tuned just for
 					providing you with the most rizzful replies !
 				</h2>
-				<Link href="/app">
+				<Link href="/app2">
 					<button className=" rounded-md bg-slate-800 ">
 						<h3 className="text-3xl text-white p-3 pl-8 pr-8">Continue</h3>
 					</button>
@@ -19,7 +19,7 @@ export default function Home() {
 					width="900px"
 					height="450px"
 					className="pt-12"
-					src="https://www.youtube.com/embed/8-rXPuu3vwU"
+					src="https://www.youtube.com/embed/gsLvizl5j4E"
 					title="&#39;One Nation One Subscription&#39; comes into effect today | DD India"
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 					allowFullScreen
