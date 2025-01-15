@@ -49,16 +49,7 @@ export default function MainRizzApp() {
 						Upload Screenshot of your chat with them!
 					</h1>
 
-					{Preview && (
-						<div className="mt-4">
-							<p className="text-sm text-gray-600 mb-2">Image Preview:</p>
-							<img
-								src={Preview}
-								alt="Selected"
-								className="w-32 h-32 object-cover rounded-md border border-gray-300"
-							/>
-						</div>
-					)}
+
 					<button
 						className="pt-1 pb-1 rounded-sm bg-gray-700 pl-2 pr-2 mt-2 text-white hover:bg-gray-800"
 						onClick={handleRizz}
