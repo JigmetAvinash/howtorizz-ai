@@ -7,7 +7,7 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true
 });
 
-const GetRizz = async (text) => {
+const GetRizz = async (text:string) => {
   try {
     console.log("console log the text at getresponse", text)
     const contentMessage = `
@@ -51,8 +51,8 @@ const GetRizz = async (text) => {
     
 
     return response.choices[0].message.content; // Extract and return the response content
-  } catch (error) {
-    console.error("Consoled Message sent Error:", error.message);
+  } catch {
+    console.error("Consoled Message sent Error:");
     throw new Error("Failed to generate a response.");
     alert("Oops ! Something went wrong, if this problem presists please mail to contact.chopcode@proton.me")
   }
